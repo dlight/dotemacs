@@ -32,11 +32,12 @@
 	"C-y" clipboard-yank
 	"C-w" clipboard-kill-region
 	"M-w" clipboard-kill-ring-save
+	"<C-tab>" switch-to-previous-buffer
 	"s-q" recompile
 	"s-c" compile
 	"s-a" next-error
 	"s-s" previous-error
-	"s-e" eshell
+	"s-e" my-term
 	"s-w" ido-switch-buffer
 	"s-1" setup-1
 	"s-2" setup-2
@@ -50,6 +51,15 @@
 	"<M-right>" windmove-right
 	"<M-up>" windmove-up
 	"<M-down>" windmove-down))
+
+(defun my-term ()
+  (let (b (get-buffer "*terminal<1>*"))
+    (if b (switch-to-buffer b)
+      (multi-term))))
+
+(defun switch-to-previous-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer)))
 
 (defun my-next-buffer ()
   (interactive)
@@ -86,7 +96,8 @@
   (member a '("*Backtrace*"
 	      "*Completions*"
 	      "*Messages*"
-	      "*Help*")))
+	      "*Help*"
+	      "*Egg:Select Action*")))
 
 (defun next-star-buffer ()
   (interactive)
@@ -126,7 +137,7 @@
   (setup-1)
   (split-window-horizontally)
   (windmove-right)
-  (eshell)
+  (my-term)
   (windmove-left))
 
 (defun setup-3 ()
@@ -147,4 +158,9 @@
 			   (progn (setq old-fullscreen current-value)
 				  'fullboth)))))
 
+;(defun my-shell ()
+  
+
 (global-set-key [f11] 'toggle-fullscreen)
+
+(toggle-fullscreen)
