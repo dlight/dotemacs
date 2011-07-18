@@ -53,7 +53,8 @@
 	"<M-down>" windmove-down))
 
 (defun my-term ()
-  (let (b (get-buffer "*terminal<1>*"))
+  (interactive)
+  (let ((b (get-buffer "*terminal<1>*")))
     (if b (switch-to-buffer b)
       (multi-term))))
 
