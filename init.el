@@ -5,7 +5,6 @@
 (require 'windmove)
 (require 'ido)
 (require 'egg)
-;(require 'icicles)
 
 (delete-selection-mode t)
 
@@ -14,14 +13,13 @@
 (tool-bar-mode -1)
 
 (ido-mode t)
-;(icy-mode)
+(winner-mode 1)
 
 (setq inhibit-splash-screen t
       c-default-style "k&r"
       c-basic-offset 4
       compile-command "make fs"
       compilation-scroll-output t)
-;      ido-ignore-buffers '("*"))
 
 (defun keys (a)
   (when a
@@ -31,6 +29,8 @@
 (keys '("C-z" undo
 	"C-y" clipboard-yank
 	"C-w" clipboard-kill-region
+	"C-c <C-left>" winner-undo
+	"C-c <C-right>" winner-redo
 	"M-w" clipboard-kill-ring-save
 	"<C-tab>" switch-to-previous-buffer
 	"s-q" recompile
