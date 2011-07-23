@@ -6,6 +6,10 @@
 (require 'ido)
 (require 'egg)
 
+(autoload 'glsl-mode "glsl-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+
 (delete-selection-mode t)
 
 (menu-bar-mode -1)
