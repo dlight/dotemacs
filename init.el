@@ -38,8 +38,8 @@
 	"<C-tab>" switch-to-previous-buffer
 	"s-q" recompile
 	"s-c" compile
-	"s-a" next-error
-	"s-s" previous-error
+	"s-a" previous-error
+	"s-s" next-error
 	"s-e" my-term
 	"s-w" ido-switch-buffer
 	"s-1" setup-1
