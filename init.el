@@ -19,7 +19,10 @@
       c-default-style "k&r"
       c-basic-offset 4
       compile-command "make fs"
-      compilation-scroll-output t)
+      ido-enable-flex-matching t)
+;      compilation-scroll-output t)
+
+(ido-everywhere 1)
 
 (defun keys (a)
   (when a
