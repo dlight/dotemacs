@@ -1,5 +1,6 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp/egg")
+(add-to-list 'load-path "~/.emacs.d/elisp/multi-web-mode")
 
 (require 'multi-term)
 (require 'windmove)
