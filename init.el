@@ -24,7 +24,6 @@
       c-basic-offset 4
       compile-command "make fs"
       ido-enable-flex-matching t)
-;      compilation-scroll-output t)
 
 (ido-everywhere 1)
 
@@ -165,8 +164,6 @@
 			     (if (boundp 'old-fullscreen) old-fullscreen nil)
 			   (progn (setq old-fullscreen current-value)
 				  'fullboth)))))
-
-;(defun my-shell ()
   
 
 (global-set-key [f11] 'toggle-fullscreen)
