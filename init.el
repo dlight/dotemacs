@@ -1,6 +1,6 @@
-(add-to-list 'load-path "~/.emacs.d/elisp")
-(add-to-list 'load-path "~/.emacs.d/elisp/egg")
-(add-to-list 'load-path "~/.emacs.d/elisp/multi-web-mode")
+(let ((default-directory "~/.emacs.d/elisp/"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'multi-term)
 (require 'windmove)
