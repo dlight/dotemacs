@@ -33,11 +33,18 @@
     (global-set-key (read-kbd-macro (nth 0 a)) (nth 1 a))
     (keys (cddr a))))
 
+;(autoload 'paredit-mode "paredit"
+;  "Minor mode for pseudo-structurally editing Lisp code." t)
+;(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+;(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+;(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+
 (keys '("C-z" undo
 	"C-y" clipboard-yank
 	"C-w" clipboard-kill-region
 	"C-c <C-left>" winner-undo
 	"C-c <C-right>" winner-redo
+	"C-x C-b" buffer-menu
 	"M-w" clipboard-kill-ring-save
 	"<C-tab>" switch-to-previous-buffer
 	"s-q" recompile
