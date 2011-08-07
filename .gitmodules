@@ -3,4 +3,4 @@
 	url = git://github.com/byplayer/egg.git
 [submodule "elisp/multi-web-mode"]
 	path = site-lisp/multi-web-mode
-	url = https://github.com/fgallina/multi-web-mode.git
+	url = git://github.com/fgallina/multi-web-mode.git
