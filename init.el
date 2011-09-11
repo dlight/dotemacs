@@ -189,9 +189,18 @@
 			     (if (boundp 'old-fullscreen) old-fullscreen nil)
 			   (progn (setq old-fullscreen current-value)
 				  'fullboth)))))
+
+(defun maximize (&optional f)
+       (interactive)
+       (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+       (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
   
 
 (global-set-key [f11] 'toggle-fullscreen)
+
+(maximize)
 
 (require 'auto-complete-config)
 (require 'auto-complete-clang)
