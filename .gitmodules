@@ -4,3 +4,12 @@
 [submodule "elisp/multi-web-mode"]
 	path = site-lisp/multi-web-mode
 	url = git://github.com/fgallina/multi-web-mode.git
+[submodule "site-lisp/auto-complete"]
+	path = site-lisp/auto-complete
+	url = git://github.com/m2ym/auto-complete.git
+[submodule "site-lisp/auto-complete-clang"]
+	path = site-lisp/auto-complete-clang
+	url = git://github.com/brianjcj/auto-complete-clang.git
+[submodule "site-lisp/yasnippet"]
+	path = site-lisp/yasnippet
+	url = git://github.com/crazycode/yasnippet.git
