@@ -83,7 +83,9 @@
 	"<M-left>" windmove-left
 	"<M-right>" windmove-right
 	"<M-up>"  windmove-up
-	"<M-down>" windmove-down))
+	"<M-down>" windmove-down
+	"<mouse-8>" my-previous-buffer
+	"<mouse-9>" my-next-buffer))
 
 (defun my-term ()
   (interactive)
