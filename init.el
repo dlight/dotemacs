@@ -257,3 +257,10 @@
       ;; Clear buffer-modified flag caused by set-visited-file-name
       (set-buffer-modified-p nil))
   (message "Renamed to %s." new-name)))
+
+
+;(setq scroll-step           1
+;scroll-conservatively 10000)
+
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
