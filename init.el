@@ -19,6 +19,8 @@
 (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
 (multi-web-global-mode 1)
 
+(load "scilab-startup")
+
 
 ;(require 'multi-web-mode)
 ;(setq mweb-default-major-mode 'html-mode)
@@ -80,7 +82,7 @@
 	"<s-down>" previous-star-buffer
 	"<M-left>" windmove-left
 	"<M-right>" windmove-right
-	"<M-up>" windmove-up
+	"<M-up>"  windmove-up
 	"<M-down>" windmove-down))
 
 (defun my-term ()
@@ -200,7 +202,7 @@
 
 (global-set-key [f11] 'toggle-fullscreen)
 
-(maximize)
+;(maximize)
 
 (require 'auto-complete-config)
 (require 'auto-complete-clang)
@@ -224,3 +226,18 @@
 (my-ac-config)
 
 (setq yas/prompt-functions '(yas/x-prompt))
+
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+    (filename (buffer-file-name)))
+    (if (not filename)
+    (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+      (message "A buffer named '%s' already exists!" new-name)
+    (progn
+      (rename-file name new-name 1)
+      (rename-buffer new-name)
+      (set-visited-file-name new-name)
+      (set-buffer-modified-p nil))))))
