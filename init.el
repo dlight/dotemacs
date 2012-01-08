@@ -35,6 +35,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(column-number-mode t)
 
 (ido-mode t)
 (winner-mode 1)
@@ -76,6 +77,11 @@
 	"s-2" setup-2
 	"s-3" setup-3
 	"s-g" egg-status
+	"s-v" hs-toggle-hiding
+	"s-g" hs-show-block
+	"s-h" hs-hide-block
+	"s-j" hs-show-all
+	"s-k" hs-hide-all
 	"<s-left>" my-previous-buffer
 	"<s-right>" my-next-buffer
 	"<s-up>" next-regular-buffer
@@ -259,8 +265,8 @@
   (message "Renamed to %s." new-name)))
 
 
-;(setq scroll-step           1
-;scroll-conservatively 10000)
+(setq scroll-step           1
+scroll-conservatively 10000)
 
-(require 'smooth-scroll)
-(smooth-scroll-mode t)
+;(require 'smooth-scroll)
+;(smooth-scroll-mode t)
