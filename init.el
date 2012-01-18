@@ -268,5 +268,7 @@
 (setq scroll-step           1
 scroll-conservatively 10000)
 
+(setq graphviz-dot-view-command "xdot %s")
+
 ;(require 'smooth-scroll)
 ;(smooth-scroll-mode t)
