@@ -59,6 +59,12 @@
 ;(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
 ;(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
 
+(defun my-recompile ()
+  (interactive)
+  (recompile)
+  (if (eq major-mode 'graphviz-dot-mode)
+      (graphviz-dot-preview)))
+
 (keys '("C-z" undo
 	"C-y" clipboard-yank
 	"C-w" clipboard-kill-region
@@ -67,15 +73,15 @@
 	"C-x C-b" buffer-menu
 	"M-w" clipboard-kill-ring-save
 	"<C-tab>" switch-to-previous-buffer
-	"s-q" recompile
+	"s-q" my-recompile
 	"s-c" compile
 	"s-a" previous-error
 	"s-s" next-error
 	"s-e" my-term
 	"s-w" ido-switch-buffer
-	"s-1" setup-1
-	"s-2" setup-2
-	"s-3" setup-3
+	"s-o 1" setup-1
+	"s-o 2" setup-2
+	"s-o 3" setup-3
 	"s-g" egg-status
 	"s-v" hs-toggle-hiding
 	"s-g" hs-show-block
