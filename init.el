@@ -293,8 +293,9 @@ scroll-conservatively 10000)
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(highlight-current-line-globally t nil (highlight-current-line))
+ '(js2-always-indent-assigned-expr-in-decls-p t)
  '(js2-auto-indent-p t)
- '(js2-bounce-indent-p nil)
+ '(js2-bounce-indent-p t)
  '(js2-cleanup-whitespace t)
  '(js2-enter-indents-newline t)
  '(js2-highlight-external-variables t)
@@ -302,7 +303,9 @@ scroll-conservatively 10000)
  '(js2-idle-timer-delay 0.05)
  '(js2-indent-on-enter-key t)
  '(js2-mirror-mode t)
- '(js2-mode-indent-ignore-first-tab t))
+ '(js2-missing-semi-one-line-override t)
+ '(js2-mode-indent-ignore-first-tab t)
+ '(js2-mode-indent-inhibit-undo nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
