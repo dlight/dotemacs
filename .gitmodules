@@ -15,4 +15,4 @@
 	url = git://github.com/crazycode/yasnippet.git
 [submodule "site-lisp/js2-mode"]
 	path = site-lisp/js2-mode
-	url = git://github.com/dlight/js2-mode.git
+	url = git://github.com/mooz/js2-mode.git

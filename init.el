@@ -9,12 +9,15 @@
 
 (autoload 'glsl-mode "glsl-mode" nil t)
 
-(autoload 'js2-mode "js2-20090723b" nil t)
+(autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+
+(setq js2-consistent-level-indent-inner-bracket-p t)
+
 
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
@@ -89,10 +92,11 @@
 	"s-o 3" setup-3
 	"s-g" egg-status
 	"s-v" hs-toggle-hiding
-	"s-g" hs-show-block
-	"s-h" hs-hide-block
-	"s-j" hs-show-all
-	"s-k" hs-hide-all
+	;"s-g" hs-show-block
+	;"s-h" hs-hide-block
+	;"s-j" hs-show-all
+	;"s-k" hs-hide-all
+	"s-r" goto-line
 	"<M-left>" my-previous-buffer
 	"<M-right>" my-next-buffer
 	"<M-up>" next-regular-buffer
@@ -283,3 +287,34 @@ scroll-conservatively 10000)
 
 ;(require 'smooth-scroll)
 ;(smooth-scroll-mode t)
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(highlight-current-line-globally t nil (highlight-current-line))
+ '(js2-auto-indent-p t)
+ '(js2-bounce-indent-p nil)
+ '(js2-cleanup-whitespace t)
+ '(js2-enter-indents-newline t)
+ '(js2-highlight-external-variables t)
+ '(js2-highlight-level 3)
+ '(js2-idle-timer-delay 0.05)
+ '(js2-indent-on-enter-key t)
+ '(js2-mirror-mode t)
+ '(js2-mode-indent-ignore-first-tab t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(font-lock-comment-delimiter-face ((default (:foreground "#aa0000")) (((class color) (min-colors 16)) nil)))
+ '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "#770000"))))
+ '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "#1111ff"))))
+ '(font-lock-negation-char-face ((t nil)))
+ '(font-lock-string-face ((((class color) (min-colors 88) (background light)) (:foreground "#3043a0"))))
+ '(highlight-current-line-face ((t (:background "#f5f5f5"))))
+ '(js2-error-face ((((class color) (background light)) (:underline "red"))))
+ '(js2-external-variable-face ((t (:foreground "#a1a1a1"))))
+ '(show-paren-match ((((class color) (background light)) (:foreground "orange"))))
+ '(show-paren-mismatch ((((class color)) (:foreground "purple")))))
