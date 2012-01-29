@@ -8,10 +8,13 @@
 (require 'egg)
 
 (autoload 'glsl-mode "glsl-mode" nil t)
+
+(autoload 'js2-mode "js2-20090723b" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
+
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
-
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js-mode))
 
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
