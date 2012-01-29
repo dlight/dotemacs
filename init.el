@@ -93,14 +93,14 @@
 	"s-h" hs-hide-block
 	"s-j" hs-show-all
 	"s-k" hs-hide-all
-	"<s-left>" my-previous-buffer
-	"<s-right>" my-next-buffer
-	"<s-up>" next-regular-buffer
-	"<s-down>" previous-star-buffer
-	"<M-left>" windmove-left
-	"<M-right>" windmove-right
-	"<M-up>"  windmove-up
-	"<M-down>" windmove-down
+	"<M-left>" my-previous-buffer
+	"<M-right>" my-next-buffer
+	"<M-up>" next-regular-buffer
+	"<M-down>" previous-star-buffer
+	"<s-left>" windmove-left
+	"<s-right>" windmove-right
+	"<s-up>"  windmove-up
+	"<s-down>" windmove-down
 	"<mouse-8>" my-previous-buffer
 	"<mouse-9>" my-next-buffer))
 
