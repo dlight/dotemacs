@@ -18,25 +18,7 @@
 
 (setq js2-consistent-level-indent-inner-bracket-p t)
 
-
-(require 'multi-web-mode)
-(setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-                  (espresso-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
-                  (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-(multi-web-global-mode 1)
-
 (load "scilab-startup")
-
-
-;(require 'multi-web-mode)
-;(setq mweb-default-major-mode 'html-mode)
-;(setq mweb-tags '((js-mode "<script[^>]+type=\"text/javascript\"[^>]*>" "</script>")
-;		  ;(glsl-mode "<script[^>]+\\(type=\"x-shader/x-fragment\"\\|type=\"x-shader/x-vertex\"\\)[^>]*>" "</script>")
-;                  (css-mode "<style[^>]+type=\"text/css\"[^>]*>" "</style>"))
-;(setq mweb-filename-extensions '("htm" "html"))
-;(multi-web-global-mode 1)
 
 (delete-selection-mode t)
 
@@ -60,12 +42,6 @@
   (when a
     (global-set-key (read-kbd-macro (nth 0 a)) (nth 1 a))
     (keys (cddr a))))
-
-;(autoload 'paredit-mode "paredit"
-;  "Minor mode for pseudo-structurally editing Lisp code." t)
-;(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
-;(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
-;(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
 
 (defun my-recompile ()
   (interactive)
@@ -285,8 +261,6 @@ scroll-conservatively 10000)
 
 (setq graphviz-dot-view-command "xdot %s")
 
-;(require 'smooth-scroll)
-;(smooth-scroll-mode t)
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
