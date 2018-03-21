@@ -1,297 +1,292 @@
-(let ((default-directory "~/.emacs.d/site-lisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+;; idea: check out this config
+;; http://aaronbedra.com/emacs.d/
 
-(require 'multi-term)
-(require 'windmove)
-(require 'ido)
-(require 'egg)
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
 
-(autoload 'glsl-mode "glsl-mode" nil t)
+;; my things
 
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
+;; i join bindings with some stuff because the bindings depend on
+;; those stuff and I don't want to create an implicit dependency
+;; between files
 
-(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+(load "~/.emacs.d/bindings.el")
 
-(setq js2-consistent-level-indent-inner-bracket-p t)
+;;;;(load "~/.emacs.d/chromium.el")
 
-(load "scilab-startup")
+;; other stuff?
 
-(delete-selection-mode t)
+; https://emacs.stackexchange.com/questions/5939/how-to-disable-auto-indentation-of-new-lines
+
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+
+(electric-pair-mode)
+
+
+;(require 'which-key)
+(which-key-mode)
+
+;;
+;;
+
+; https://www.masteringemacs.org/article/disabling-prompts-emacs
+
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq confirm-nonexistent-file-or-buffer nil)
+
+;(setq ido-create-new-buffer 'always) ??
+
+
+
+;; https://stackoverflow.com/questions/5138110/emacs-create-new-file-with-ido-enabled
+
+;; https://stackoverflow.com/questions/16121151/any-way-to-make-ido-find-file-switch-to-another-recently-opened-file-if-there-is
+
+;; (setq ido-auto-merge-work-directories-length -1)
+
+;(defun ido-my-keys ()
+;  "Add my keybindings for ido."
+;  (define-key ido-completion-map (kbd "M-<return>")
+;    'ido-invoke-in-vertical-split)
+;  (define-key ido-completion-map (kbd "C-z")
+;    'ido-undo-merge-work-directory)
+;)
+
+;(add-hook 'ido-setup-hook 'ido-my-keys)
+
+(setq ido-enable-flex-matching t
+      ido-use-virtual-buffers t
+      ido-create-new-buffer 'always
+      ido-auto-merge-work-directories-length -1
+)
+
+(ido-mode t)
+
+
+;(autopair-global-mode)
+
+
+;(setq kill-buffer-query-functions nil)
+;(setq kill-emacs-query-function nil)
+
+;(setq kill-buffer-query-functions
+;  (remq 'process-kill-buffer-query-function
+;         kill-buffer-query-functions))
+
+
+;(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
+
+;;; maximized
+
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;;;
+;;;
+;;;;
+
+; uh?
+   (setq system-uses-terminfo nil)
+; ..?
+
+;(setq linum-format "%d ")
+(global-linum-mode t)
+
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (column-number-mode t)
 
-(ido-mode t)
-(winner-mode 1)
+(add-hook 'after-init-hook 'global-company-mode)
 
-(setq inhibit-splash-screen t
-      c-default-style "k&r"
-      c-basic-offset 4
-      compile-command "make fs"
-      ido-enable-flex-matching t)
-
-(ido-everywhere 1)
-
-(defun keys (a)
-  (when a
-    (global-set-key (read-kbd-macro (nth 0 a)) (nth 1 a))
-    (keys (cddr a))))
-
-(defun my-recompile ()
-  (interactive)
-  (recompile)
-  (if (eq major-mode 'graphviz-dot-mode)
-      (graphviz-dot-preview)))
-
-(keys '("C-z" undo
-	"C-y" clipboard-yank
-	"C-w" clipboard-kill-region
-	"C-c <C-left>" winner-undo
-	"C-c <C-right>" winner-redo
-	"C-x C-b" buffer-menu
-	"M-w" clipboard-kill-ring-save
-	"<C-tab>" switch-to-previous-buffer
-	"s-q" my-recompile
-	"s-c" compile
-	"s-a" previous-error
-	"s-s" next-error
-	"s-e" my-term
-	"s-w" ido-switch-buffer
-	"s-o 1" setup-1
-	"s-o 2" setup-2
-	"s-o 3" setup-3
-	"s-g" egg-status
-	"s-v" hs-toggle-hiding
-	;"s-g" hs-show-block
-	;"s-h" hs-hide-block
-	;"s-j" hs-show-all
-	;"s-k" hs-hide-all
-	"s-r" goto-line
-	"<M-left>" my-previous-buffer
-	"<M-right>" my-next-buffer
-	"<M-up>" next-regular-buffer
-	"<M-down>" previous-star-buffer
-	"<s-left>" windmove-left
-	"<s-right>" windmove-right
-	"<s-up>"  windmove-up
-	"<s-down>" windmove-down
-	"<mouse-8>" my-previous-buffer
-	"<mouse-9>" my-next-buffer))
-
-(defun my-term ()
-  (interactive)
-  (let ((b (get-buffer "*terminal<1>*")))
-    (if b (switch-to-buffer b)
-      (multi-term))))
-
-(defun switch-to-previous-buffer ()
-  (interactive)
-  (switch-to-buffer (other-buffer)))
-
-(defun my-next-buffer ()
-  (interactive)
-  (if (string-match "^\\*.*\\*$" (buffer-name))
-      (next-star-buffer)
-    (next-regular-buffer)))
-
-(defun my-previous-buffer ()
-  (interactive)
-  (if (string-match "^\\*.*\\*$" (buffer-name))
-      (previous-star-buffer)
-    (previous-regular-buffer)))
-
-(defun next-regular-buffer ()
-  (interactive)
-  (next-buffer)
-  (if (string-match "^\\*.*\\*$" (buffer-name))
-      (next-regular-buffer)))
-
-(defun next-regular-buffer-or-scratch ()
-  (interactive)
-  (next-buffer)
-  (if (and (string-match "^\\*.*\\*$" (buffer-name))
-	  (not (equal "*scratch*" (buffer-name))))
-      (next-regular-buffer-or-scratch)))
-
-(defun previous-regular-buffer ()
-  (interactive)
-  (previous-buffer)
-  (if (string-match "^\\*.*\\*$" (buffer-name))
-      (previous-regular-buffer)))
-
-(defun bad-buffer (a)
-  (member a '("*Backtrace*"
-	      "*Completions*"
-	      "*Messages*"
-	      "*Help*"
-	      "*Egg:Select Action*")))
-
-(defun next-star-buffer ()
-  (interactive)
-  (next-buffer)
-  (if (or (not (string-match "^\\*.*\\*$" (buffer-name)))
-	  (bad-buffer (buffer-name)))
-      (next-star-buffer)))
-
-(defun previous-star-buffer ()
-  (interactive)
-  (previous-buffer)
-  (if (or (not (string-match "^\\*.*\\*$" (buffer-name)))
-	  (bad-buffer (buffer-name)))
-      (previous-star-buffer)))
-
-(add-hook 'eshell-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<home>") 'eshell-bol)
-	     (local-set-key (kbd "C-d") 'eshell-send-eof-to-process)))
-
-; http://www.emacswiki.org/cgi-bin/wiki?EmacsCodeBrowser compile window
-
-(defun eshell-send-eof-to-process ()
-  "Send EOF to process."
-  (interactive)
-  (eshell-send-input nil nil t)
-  (eshell-process-interact 'process-send-eof))
-
-(defun setup-1 ()
-  (interactive)
-  (delete-other-windows)
-  (switch-to-buffer "*scratch*")
-  (next-regular-buffer-or-scratch))
-
-(defun setup-2 ()
-  (interactive)
-  (setup-1)
-  (split-window-horizontally)
-  (windmove-right)
-  (my-term)
-  (windmove-left))
-
-(defun setup-3 ()
-  (interactive)
-  (setup-2)
-  (windmove-right)
-  (split-window-vertically)
-  (windmove-down)
-  (ielm)
-  (windmove-left))
-
-(defun toggle-fullscreen (&optional f)
-  (interactive)
-  (let ((current-value (frame-parameter nil 'fullscreen)))
-    (set-frame-parameter nil 'fullscreen
-			 (if (equal 'fullboth current-value)
-			     (if (boundp 'old-fullscreen) old-fullscreen nil)
-			   (progn (setq old-fullscreen current-value)
-				  'fullboth)))))
-
-(defun maximize (&optional f)
-       (interactive)
-       (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-       (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-  
-
-(global-set-key [f11] 'toggle-fullscreen)
-
-;(maximize)
-
-(require 'auto-complete-config)
-(require 'auto-complete-clang)
-
-(setq ac-auto-start nil)
-(setq ac-quick-help-delay 0.5)
-(ac-set-trigger-key "TAB")
-;;(define-key ac-mode-map  [(control tab)] 'auto-complete)
-(defun my-ac-config ()
-  (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-  (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
-  ;; (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
-  (add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
-  (add-hook 'css-mode-hook 'ac-css-mode-setup)
-  (add-hook 'auto-complete-mode-hook 'ac-common-setup)
-  (global-auto-complete-mode t))
-(defun my-ac-cc-mode-setup ()
-  (setq ac-sources (append '(ac-source-clang ac-source-yasnippet) ac-sources)))
-(add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
-;; ac-source-gtags
-(my-ac-config)
-
-(setq yas/prompt-functions '(yas/x-prompt))
-
-;; Originally from stevey, adapted to support moving to a new directory.
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive
-   (progn
-     (if (not (buffer-file-name))
-         (error "Buffer '%s' is not visiting a file!" (buffer-name)))
-     (list (read-file-name (format "Rename %s to: " (file-name-nondirectory
-                                                     (buffer-file-name)))))))
-  (if (equal new-name "")
-      (error "Aborted rename"))
-  (setq new-name (if (file-directory-p new-name)
-                     (expand-file-name (file-name-nondirectory
-                                        (buffer-file-name))
-                                       new-name)
-                   (expand-file-name new-name)))
-  ;; If the file isn't saved yet, skip the file rename, but still update the
-  ;; buffer name and visited file.
-  (if (file-exists-p (buffer-file-name))
-      (rename-file (buffer-file-name) new-name 1))
-  (let ((was-modified (buffer-modified-p)))
-    ;; This also renames the buffer, and works with uniquify
-    (set-visited-file-name new-name)
-    (if was-modified
-        (save-buffer)
-      ;; Clear buffer-modified flag caused by set-visited-file-name
-      (set-buffer-modified-p nil))
-  (message "Renamed to %s." new-name)))
+(setq inhibit-splash-screen t)
+(setq compile-command "make")
+      ;c-default-style "k&r"
+      ;c-basic-offset 4
 
 
-(setq scroll-step           1
-scroll-conservatively 10000)
+(setq-default line-spacing 1)
 
-(setq graphviz-dot-view-command "xdot %s")
+
+;;; whitespace
+
+; so funciona no *scratch* :/
+(setq-default show-trailing-whitespace t)
+
+(require 'whitespace)
+(setq-default whitespace-style '(face trailing))
+(global-whitespace-mode 1)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;;
+
+(setq process-query-on-exit-flag t)
+
+(setq compilation-always-kill t)
+(setq compilation-scroll-output t)
+(setq compilation-auto-jump-to-first-error t)
+
+
+;; temporary windows
+
+;(require 'popwin)
+;(popwin-mode 1)
+
+; :position
+
+; The value must be one of (left top right bottom). The popup window
+; will shown at the position of the frame. If no position specified,
+; popwin:popup-window-position will be used.
+
+
+; consider using shackle
+; https://github.com/wasamasa/shackle
+
+; <EliasAmaral> how can I set where the "side" window (with *compilation*, *Help*, etc) opens?
+; <EliasAmaral> if there's only one window, it used to open in the bottom by default. it now opens in the right side. I'm not sure what caused this change
+; <YoungFrog> did you get a bigger screen recently ?
+; <EliasAmaral> no, not really
+; <YoungFrog> EliasAmaral: split-height-threshold and split-width-threshold might help.
+; <EliasAmaral> I did change the font size
+; <EliasAmaral> to a smaller font so more text would fit
+; <EliasAmaral> I think compilation-mode has its own config though
+; <EliasAmaral> apart from what emacs does by default
+; <wasamasa> I doubt it has
+; <wasamasa> (setq outwin (display-buffer outbuf '(nil (allow-no-window . t))))
+; <YoungFrog> my guess is that it was an excerpt from compilation-mode
+; wasamasa> indeed
+; EliasAmaral> I think that installing popwin made the compilation window appear on the bottom
+; <EliasAmaral> actually I'm not sure popwin works correctly here
+; <wasamasa> yes, popwin does that by default
+; * wasamasa eventually got annoyed enough with popwin to write a less buggy replacement
+; <EliasAmaral> is your less buggy thing on melpa or something?
+; <wasamasa> ,shackle
+; <EliasAmaral> Oh, the buffers/modes that popwin applies are defined in popwin:special-display-config
+; <EliasAmaral> it doesn't automatically appear for all "temporary" buffers
+; <EliasAmaral> so popwin puts the ones it knows in the bottom, and others appears in the side because of the thresholds
+
+;; fold
+
+
+(require 'fold-dwim)
+
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+
+;; magit.. ahn
+
+(add-hook 'magit-status-mode-hook #'magit-filenotify-mode)
+
+;;-- config
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(highlight-current-line-globally t nil (highlight-current-line))
- '(js2-always-indent-assigned-expr-in-decls-p t)
- '(js2-auto-indent-p t)
- '(js2-bounce-indent-p t)
- '(js2-cleanup-whitespace t)
- '(js2-enter-indents-newline t)
- '(js2-highlight-external-variables t)
- '(js2-highlight-level 3)
- '(js2-idle-timer-delay 0.05)
- '(js2-indent-on-enter-key t)
- '(js2-mirror-mode t)
- '(js2-missing-semi-one-line-override t)
- '(js2-mode-indent-ignore-first-tab t)
- '(js2-mode-indent-inhibit-undo nil))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#454545" "#cd5542" "#6aaf50" "#baba36" "#5180b3" "#ab75c3" "#68a5e9" "#bdbdb3"])
+ '(company-ghc-show-info t)
+ '(company-idle-delay nil)
+ '(global-company-mode t)
+ '(package-selected-packages
+   (quote
+    (elm-mode which-key psc-ide dracula-theme flatland-black-theme flatland-theme foggy-night-theme company-ghc company-ghci ghc labburn-theme zenburn-theme company flycheck icicles undo-tree web-mode fsharp-mode google google-maps glsl-mode markdown-mode markdown-mode+ mmm-mode flycheck-rust racer rust-mode rustfmt twilight-bright-theme tangotango-theme sublime-themes smex psci popwin naquadah-theme multi-term magit-filenotify load-theme-buffer-local llvm-mode hi2 hc-zenburn-theme green-phosphor-theme ghc-imported-from fold-dwim fill-column-indicator cycle-themes company-racer color-theme-solarized color-theme-sanityinc-tomorrow coffee-mode clues-theme cherry-blossom-theme calmer-forest-theme busybee-theme bubbleberry-theme boron-theme bliss-theme basic-theme autumn-light-theme auctex apropospriate-theme anti-zenburn-theme android-mode ample-zen-theme ample-theme alect-themes ahungry-theme afternoon-theme ac-js2 ac-html-bootstrap ac-html ac-haskell-process)))
+ '(require-final-newline t))
+
+;; theme
+
+(load "~/.emacs.d/theme.el")
+
+;;
+;; indentation
+
+(setq tab-width 4
+      indent-tabs-mode nil)
+
+;;;;;;;;
+;;;;;;;;
+
+;;;;;;;; platforms
+
+;;;
+;;; android
+
+(require 'android-mode)
+(setq android-mode-sdk-dir "/opt/android-sdk")
+
+
+;;;;;;;; programming languages
+
+;;;
+;;; glsl
+
+(autoload 'glsl-mode "glsl-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
+
+;;;
+;;; web
+;;;
+
+(load "~/.emacs.d/web.el")
+
+;;;
+;;; javascript (js-mode)
+
+(setq js-indent-level 2)
+
+;;;
+;;; coffeescript
+
+(setq coffee-tab-width 2)
+
+;;;
+;;; haskell
+
+(load "~/.emacs.d/haskell.el")
+
+;;;
+;;; purescript
+
+(add-hook 'purescript-mode-hook 'turn-on-purescript-indentation)
+
+;;;
+;;; rust
+
+(load "~/.emacs.d/rust.el")
+
+;;;
+;;; tex
+
+(setq reftex-plug-into-AUCTeX t)
+
+(add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
+
+
+;;qq
+
+
+;;;;;;;;;;;;;; fill-column mode must be the last?
+;;;;;;;;;;;;;; nope
+
+(require 'fill-column-indicator)
+(define-globalized-minor-mode global-fci-mode
+  fci-mode (lambda ()
+             (when (not (memq major-mode
+                              (list 'web-mode)))
+               (fci-mode 1))))
+
+
+(global-fci-mode 1)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(font-lock-comment-delimiter-face ((default (:foreground "#aa0000")) (((class color) (min-colors 16)) nil)))
- '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "#770000"))))
- '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "#1111ff"))))
- '(font-lock-negation-char-face ((t nil)))
- '(font-lock-string-face ((((class color) (min-colors 88) (background light)) (:foreground "#3043a0"))))
- '(highlight-current-line-face ((t (:background "#f5f5f5"))))
- '(js2-error-face ((((class color) (background light)) (:underline "red"))))
- '(js2-external-variable-face ((t (:foreground "#a1a1a1"))))
- '(show-paren-match ((((class color) (background light)) (:foreground "orange"))))
- '(show-paren-mismatch ((((class color)) (:foreground "purple")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil)))))
