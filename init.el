@@ -4,7 +4,13 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
+
 (package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(package-install-selected-packages)
 
 ;; my things
 
